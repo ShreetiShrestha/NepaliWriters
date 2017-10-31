@@ -1,0 +1,18 @@
+{% extends 'baselogged.html' %}
+{% load staticfiles %}
+
+{% block bodycontent %}
+<h1>Post to be reviewed</h1>
+<h2>{{post.title}}</h2><hr>
+<i>{{post.caption}}</i><br>
+<img src="{{post.image.url}}">
+<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{{post.author}}</a></h3><br>
+{{post.date}}  {{post.category}}
+<pre><p>{{post.description}}</p></pre>
+{% if user.is_superuser %}
+<button>Validate</button>
+<button>Reject</button><br>
+{% else %}
+<button>Cancel Submission</button>
+{% endif %}
+{% endblock %}

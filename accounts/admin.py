@@ -6,3 +6,4 @@ from django.conf import settings
 admin.site.register(Post)
 admin.site.register(Category)
 admin.site.register(User)
+admin.site.register(PostToReview)

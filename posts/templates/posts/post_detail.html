@@ -20,7 +20,7 @@
 <h1>{{post.title}}</h1><hr>
 <i>{{post.caption}}</i><br>
 <img src="{{post.image.url}}">
-<h3>By : {{post.author}}</h3><br>
+<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{{post.author}}</a></h3><br>
 {{post.date}}  {{post.category}}
 <h4><strong>{{post.no_of_like}} Likes <br> {{post.no_of_comment}} Comments</strong></h4>
 <pre><p>{{post.description}}</p></pre>

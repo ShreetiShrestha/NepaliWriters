@@ -1,0 +1,19 @@
+{% extends 'baselogged.html' %}
+{% load staticfiles %}
+
+{% block bodycontent %}
+<img src="{{usercontext.profile_pic.url}}">
+<h1>{{usercontext.first_name}}
+{{usercontext.last_name}}</h1>
+{{usercontext.username}}<br>
+{{usercontext.email}}<br>
+{{usercontext.bio}}<br>
+{{usercontext.location}}<br>
+{{usercontext.birth_date}}
+
+<h1>My Posts</h1>
+{% for mypost in my_post_list %}
+<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
+{% endfor %}
+
+{% endblock %}

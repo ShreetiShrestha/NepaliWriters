@@ -4,14 +4,24 @@
 {% block bodycontent %}
 {% if post_list %}
 Hello admin
+<hr>
+<h1>Posts to be Reviewed</h1>
+{% for each in post_review_list %}
+<a href="{% url 'review_post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=post.author.id %}">{{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}<br>
+{% endfor %}
+<h1>Posts</h1>
 {% for each in post_list %}
-{{ each.title}}
-
+<a href="{% url 'post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=post.author.id %}">{{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}
 {% endfor %}
 <br>
-{% for each in category_list %}
-{{ each.name }}
+<h1>Categories</h1>
+{% for category in category_list %}
+<hr>
+<img src="{{category.category_image.url}}">
+<h3>{{ category.name}}</h3>
+<h5>{{ category.no_of_post }}</h5>
 {% endfor %}
+
 
 {% else %}
 <h1 style="color:red;">Permission Denied</h1>

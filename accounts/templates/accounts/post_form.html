@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block bodycontent%}
+<form action="{% url 'post_add' %}" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {% include 'accounts/form-template.html' %}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

@@ -21,7 +21,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title=models.CharField(max_length=100)
-    caption = models.CharField(max_length=200)
+    caption = models.CharField(max_length=200,blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False)
     description = models.TextField(null=True, blank=True)
     image= models.ImageField(upload_to='post_images',blank=True)
@@ -47,6 +47,7 @@ class PostToReview(models.Model):
     date = models.DateField()
     no_of_like=models.IntegerField(default=0)
     no_of_comment=models.IntegerField(default=0)
+    status=models.BooleanField(default=False)
     def __str__(self):
         return str(self.title)
 # Create your models here.

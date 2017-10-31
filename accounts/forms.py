@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
-
+from .models import *
 
 
 
@@ -24,3 +24,9 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2','bio','location','birth_date', 'profile_pic', )
+
+class PostToReviewForm(forms.ModelForm):
+    caption = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    class Meta:
+        model=PostToReview
+        fields = ('title','caption','author','description','image','category',)
