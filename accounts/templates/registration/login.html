@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block bodycontent %}
+   {% if form.errors %}
+
+<p>Your username and password didn't match.<br> Please try again.</p>
+{% endif %}
+                    <form class="form text-center" method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                        <div class="input-group form-group-no-border input-lg">
+                                <!--<span class="input-group-addon">-->
+                                    <!--<i class="now-ui-icons users_circle-08"></i>-->
+                                <!--</span>-->
+                                <input type="text" name="username" class="form-control" placeholder="Username">
+                            </div>
+                         <div class="input-group form-group-no-border input-lg">
+                                <!--<span class="input-group-addon">-->
+                                    <!--<i class="now-ui-icons ui-1_lock-circle-open"></i>-->
+                                <!--</span>-->
+                                <input type="password" name="password" class="form-control" placeholder="Password">
+                            </div>
+
+
+
+
+                                <div class="card-body content-center">
+                                    <button type="submit" class="btn btn-neutral btn-round btn-lg">&nbsp;&nbsp;Login&nbsp;&nbsp;</button>
+                                </div>
+                    </form>
+
+{% endblock %}
