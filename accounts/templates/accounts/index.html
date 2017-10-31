@@ -3,4 +3,24 @@
 {% block bodycontent%}
 <a href="{% url 'login' %}"><button>Sign In</button></a>
 <a href="/signup/"><button>Sign Up</button></a>
+
+<h1>Categories</h1>
+{% for category in category_list %}
+<hr>
+<img src="{{category.category_image.url}}">
+<h3>{{ category.name}}</h3>
+{% endfor %}
+
+<h1>Top Posts</h1>
+
+{% for post in post_list %}
+<hr>
+<a href="{% url 'post_detail' pk=post.id %}">
+<h3>{{ post.title}}</h3></a>
+<img src="{{post.image.url}}">
+<h5>{{ post.caption}}</h5>
+By {{post.author}}
+
+
+{% endfor %}
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'baselogged.html' %}
+{% load staticfiles %}
+
+{% block bodycontent %}
+
+Hello user<br>
+<button>View my Profile</button>
+<button>Update my Profile</button>
+<button>Create New Post</button>
+<button>Edit My Post</button>
+<button>Delete My Post</button>
+<button>List My Posts</button>
+<!--side bar-->
+<h1>Categories</h1>
+{% for category in category_list %}
+<hr>
+<img src="{{category.category_image.url}}">
+<h3>{{ category.name}}</h3>
+{% endfor %}
+
+<!--sidebar-->
+<h1>My Posts</h1>
+{% for mypost in my_post_list %}
+<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
+{% endfor %}
+
+
+<h1>Top Posts</h1>
+{% for post in post_list %}
+<hr>
+<a href="{% url 'post_detail' pk=post.id %}"><h3>{{ post.title}}</h3></a>
+<img src="{{post.image.url}}">
+<h5>{{ post.caption}}</h5>
+By {{post.author}}
+
+{% endfor %}
+
+
+{% endblock %}

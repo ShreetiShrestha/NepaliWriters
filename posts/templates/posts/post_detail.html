@@ -1,0 +1,43 @@
+{% extends 'baselogged.html' %}
+{% load staticfiles %}
+
+{% block bodycontent %}
+<!--side bar-->
+<h1>Categories</h1>
+{% for category in category_list %}
+<hr>
+<img src="{{category.category_image.url}}">
+<h3>{{ category.name}}</h3>
+{% endfor %}
+
+<!--sidebar-->
+<h1>My Posts</h1>
+{% for mypost in my_post_list %}
+<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
+{% endfor %}
+<br>
+
+<h1>{{post.title}}</h1><hr>
+<i>{{post.caption}}</i><br>
+<img src="{{post.image.url}}">
+<h3>By : {{post.author}}</h3><br>
+{{post.date}}  {{post.category}}
+<h4><strong>{{post.no_of_like}} Likes <br> {{post.no_of_comment}} Comments</strong></h4>
+<pre><p>{{post.description}}</p></pre>
+{% if user.is_authenticated %}
+<button>Like</button>
+<button>Comment</button>
+<button>Share</button><br>
+{% else %}
+<h4>Please Login to your account to Like, Comment or Share this Post.</h4>
+<a href="{% url 'login' %}"><button>Sign In</button></a>
+{% endif %}
+{% if comment_list %}
+{% for comment in comment_list %}
+{{ commentor }}
+{{ comment }}
+{% endfor %}
+{% else %}
+No comments found for this post. Be the first one to comment!
+{% endif %}
+{% endblock %}

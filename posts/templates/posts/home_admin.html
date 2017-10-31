@@ -1,0 +1,19 @@
+{% extends 'baselogged.html' %}
+{% load staticfiles %}
+
+{% block bodycontent %}
+{% if post_list %}
+Hello admin
+{% for each in post_list %}
+{{ each.title}}
+
+{% endfor %}
+<br>
+{% for each in category_list %}
+{{ each.name }}
+{% endfor %}
+
+{% else %}
+<h1 style="color:red;">Permission Denied</h1>
+{% endif %}
+{% endblock %}
