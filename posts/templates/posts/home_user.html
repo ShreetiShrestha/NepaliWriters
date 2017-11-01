@@ -3,7 +3,7 @@
 
 {% block bodycontent %}
 
-Hello user<br>
+Hello {{user}}<br>
 {% for each in usercontext %}
 <a href="{% url 'userprofile' pk=each.id %}"> <button>View my Profile</button></a>
 <a href="{% url 'updateprofile' pk=each.id %}"><button>Update my Profile</button></a>{% endfor %}
@@ -14,7 +14,7 @@ Hello user<br>
 {% for category in category_list %}
 <hr>
 <img src="{{category.category_image.url}}">
-<h3>{{ category.name}}</h3>
+<h3><a href="{% url 'category_listing' pk=category.id %}" >{{ category.name}}</a></h3>
 {% endfor %}
 <hr>
 <!--sidebar-->

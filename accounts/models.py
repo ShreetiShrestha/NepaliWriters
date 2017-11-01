@@ -36,6 +36,7 @@ class Comment(models.Model):
     commentor=models.ForeignKey(settings.AUTH_USER_MODEL,blank=False)
     post=models.ForeignKey(Post,on_delete=models.CASCADE)
     time=models.DateTimeField(default=datetime.datetime.now())
+    comment=models.TextField(blank=False,default="")
 
 class PostToReview(models.Model):
     GEND_CHOICES = (

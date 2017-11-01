@@ -2,17 +2,10 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
-<h1>Posts Under Review</h1>
-{% for each in review_list %}
-<br>{{each.title}}
-{{each.date}}
-<a href="{% url 'review_post_detail' pk=each.id %}">See More..</a>
-{% endfor %}
-<h1>My Posts</h1>
+<h1>{{post.category}}</h1>
 {% for post in post_list %}
 <br>{{post.title}}
 {{post.date}}
 <a href="{% url 'post_detail' pk=post.id %}">See More..</a>
 {% endfor %}
-
 {% endblock %}

@@ -6,7 +6,6 @@
 <h1>Categories</h1>
 {% for category in category_list %}
 <hr>
-<img src="{{category.category_image.url}}">
 <h3>{{ category.name}}</h3>
 {% endfor %}
 
@@ -40,12 +39,24 @@
 <h4>Please Login to your account to Like, Comment or Share this Post.</h4>
 <a href="{% url 'login' %}"><button>Sign In</button></a>
 {% endif %}
+
 {% if comment_list %}
+ <h5 style="text-align:center;">Recent Comments</h5><br>
 {% for comment in comment_list %}
-{{ commentor }}
-{{ comment }}
+<a href="{% url 'userprofile' pk=comment.commentor.id %}">{{ comment.commentor }}</a>
+{{ comment.comment }}
+{{ comment.time }}
 {% endfor %}
 {% else %}
 No comments found for this post. Be the first one to comment!
 {% endif %}
+<form action="{% url 'post_comment' pk=post.id %}" method="GET" enctype="multipart/form-data" style="text-align:center;" id="commentform">
+        {% csrf_token %}
+            <div class="input-group form-group-no-border input-md col-md-12 ">
+                <span class="input"><h5>Comment:</h5></span>&nbsp;&nbsp;&nbsp;
+                <textarea rows="5" cols="100" name="comment"  placeholder="Enter text here..." class="form-control"></textarea>
+            </div>
+                    <button type="submit" class="btn btn-success btn-round">Comment</button>
+
+        </form>
 {% endblock %}

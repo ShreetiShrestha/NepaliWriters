@@ -19,4 +19,7 @@ urlpatterns = [
     url(r'^cancelmyvalidation/(?P<pk>\d+)$', views.CancelReview.as_view(), name='cancel_my_validation'),
     url(r'^like/(?P<pk>\d+)$', views.LikePost.as_view(), name='like_post'),
     url(r'^unlike/(?P<pk>\d+)$', views.UnlikePost.as_view(), name='unlike_post'),
+    url(r'^comment/(?P<pk>\d+)$', views.CommentPost.as_view(), name='post_comment'),
+    url(r'^category/posts/(?P<pk>\d+)$', views.CategoryPostList.as_view(), name='category_listing'),
+
 ]
