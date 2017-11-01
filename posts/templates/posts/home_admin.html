@@ -18,7 +18,7 @@ Hello admin
 {% for category in category_list %}
 <hr>
 <img src="{{category.category_image.url}}">
-<h3>{{ category.name}}</h3>
+<h3><a href="{% url 'category_listing' pk=category.id %}" >{{ category.name}}</a></h3>
 <h5>{{ category.no_of_post }}</h5>
 {% endfor %}
 

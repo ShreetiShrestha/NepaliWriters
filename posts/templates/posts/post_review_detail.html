@@ -10,7 +10,7 @@
 <i>{{post.caption}}</i><br>
 <img src="{{post.image.url}}">
 <h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{post.author}}</a></h3><br>
-{{post.date}}  {{post.category}}
+{{post.date}}  <a href="{% url 'category_listing' pk=category.id %}" >{{post.category}}</a>
 <pre><p>{{post.description}}</p></pre>
 {% if user.is_superuser %}
 <a href="{% url 'validate_post' pk=post.id %}"><button>Validate</button></a>
