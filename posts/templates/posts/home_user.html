@@ -5,13 +5,10 @@
 
 Hello user<br>
 {% for each in usercontext %}
-<a href="{% url 'userprofile' pk=each.id %}"> <button>View my Profile</button>
-<a href="{% url 'updateprofile' pk=each.id %}"><button>Update my Profile</button>{% endfor %}
+<a href="{% url 'userprofile' pk=each.id %}"> <button>View my Profile</button></a>
+<a href="{% url 'updateprofile' pk=each.id %}"><button>Update my Profile</button></a>{% endfor %}
 <a href="{% url 'post_add' %}"><button>Create New Post</button></a>
-<button>Edit My Post</button>
-<button>Delete My Post</button>
-<button>View My Posts</button>
-<button>View Pending Posts</button>
+<a href="{% url 'my_validation_list' %}"><button>View My Posts</button></a>
 <!--side bar-->
 <h1>Categories</h1>
 {% for category in category_list %}
@@ -19,13 +16,13 @@ Hello user<br>
 <img src="{{category.category_image.url}}">
 <h3>{{ category.name}}</h3>
 {% endfor %}
-
+<hr>
 <!--sidebar-->
 <h1>My Posts</h1>
 {% for mypost in my_post_list %}
-<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
+<br><a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
 {% endfor %}
-
+<hr>
 
 <h1>Top Posts</h1>
 {% for post in post_list %}

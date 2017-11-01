@@ -3,16 +3,19 @@
 
 {% block bodycontent %}
 <h1>Post to be reviewed</h1>
+{{post.status}}
+
+<h1>Pending Posts</h1>
 <h2>{{post.title}}</h2><hr>
 <i>{{post.caption}}</i><br>
 <img src="{{post.image.url}}">
-<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{{post.author}}</a></h3><br>
+<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{post.author}}</a></h3><br>
 {{post.date}}  {{post.category}}
 <pre><p>{{post.description}}</p></pre>
 {% if user.is_superuser %}
-<button>Validate</button>
-<button>Reject</button><br>
+<a href="{% url 'validate_post' pk=post.id %}"><button>Validate</button></a>
+<a href="{% url 'reject_post' pk=post.id %}"><button>Reject</button><br></a>
 {% else %}
-<button>Cancel Submission</button>
+<a href="{% url 'cancel_my_validation' pk=post.id%}"><button>Cancel Submission</button></a>
 {% endif %}
 {% endblock %}

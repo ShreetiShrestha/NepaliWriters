@@ -38,6 +38,11 @@ class Comment(models.Model):
     time=models.DateTimeField(default=datetime.datetime.now())
 
 class PostToReview(models.Model):
+    GEND_CHOICES = (
+        ("Accepted", ("Accepted")),
+        ("Rejected", ("Rejected")),
+        ("Pending", ("Pending")),
+    )
     title=models.CharField(max_length=100)
     caption = models.CharField(max_length=200)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False)
@@ -47,7 +52,7 @@ class PostToReview(models.Model):
     date = models.DateField()
     no_of_like=models.IntegerField(default=0)
     no_of_comment=models.IntegerField(default=0)
-    status=models.BooleanField(default=False)
+    status=models.CharField(default='Pending',max_length=10,choices=GEND_CHOICES)
     def __str__(self):
         return str(self.title)
 # Create your models here.

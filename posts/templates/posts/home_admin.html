@@ -2,16 +2,16 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
-{% if post_list %}
+{% if user.is_superuser %}
 Hello admin
 <hr>
 <h1>Posts to be Reviewed</h1>
 {% for each in post_review_list %}
-<a href="{% url 'review_post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=post.author.id %}">{{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}<br>
+<br><a href="{% url 'review_post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=each.author.id %}">{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}<br>
 {% endfor %}
 <h1>Posts</h1>
 {% for each in post_list %}
-<a href="{% url 'post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=post.author.id %}">{{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}
+<br><a href="{% url 'post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=each.author.id %}">{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}
 {% endfor %}
 <br>
 <h1>Categories</h1>
