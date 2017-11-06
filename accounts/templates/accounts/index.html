@@ -1,26 +1,285 @@
-{% extends 'base.html' %}
+<script>
+    $(document).ready(function() {
+    $("#post_img").hover(function(){
+       alert("You clicked the button using JQuery!");
+    });
+});
+</script>{% extends 'base.html' %}
 {% load staticfiles %}
+
+
 {% block bodycontent%}
-<a href="{% url 'login' %}"><button>Sign In</button></a>
-<a href="/signup/"><button>Sign Up</button></a>
 
-<h1>Categories</h1>
-{% for category in category_list %}
+<div class="page-header"  style="background-image: url('{% static 'img/header.png' %}');">
+			<div class="filter"></div>
+			<div class="container">
+			    <div class="motto text-center">
+			        <p style="color:#ffffff;">Presenting the new edition of</p></p>
+			        <h1>Nepali Writers</h1>
+			        <h3>WHERE NEPAL UNITES FOR CREATIVITY</h3>
+			        <br />
+
+                    <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-neutral btn-round">LOGIN</button></a>
+			    </div>
+			</div>
+    	</div>
+        <div class="main">
+			<div class="section text-center" style="background-color:#264b56;" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title" style="color:#ffffff;">About Us</h2>
+                        <h5 class="description" style="color:#cccccc;>'Nepali Writers' is a group that works on building platform to help the young and aspiring writers of Nepal.<br><br>Everyone has a "writer" inside us! Some of us use it to make plans & wander with thoughts, some of us write it down, scribble and throw the pages, some of us write it down in a memo-book secretly which is seen by only self, while some of us grab every opportunity to expose our talents ,one of those platforms to expose your writing, is "Nepali Writers"  </h5>
+                        <br>
+                        <button class="btn btn-danger btn-round">Our Features</button>
+                    </div>
+                </div>
+				<br/><br/>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+								<i class="nc-icon nc-album-2"></i>
+							</div>
+							<div class="description">
+								<h4 class="info-title" style="color:#ffffff;" >Fresh Contents</h4>
+								<p class="description" style="color:#cccccc;">We offer fresh articles to the audience who always strive for a bit of literary read.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+								<i class="nc-icon nc-chat-33"></i>
+							</div>
+							<div class="description">
+								<h4 class="info-title" style="color:#ffffff;">Readers' Engagement</h4>
+								<p class="description" style="color:#cccccc;">Reader engagement is the strength of our platform, your write-up doesn’t go unnoticed; you’ll get comments and feedback.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+								<i class="nc-icon nc-world-2"></i>
+							</div>
+							<div class="description">
+								<h4 class="info-title" style="color:#ffffff;">Wide Audience</h4>
+								<p class="description" style="color:#cccccc;">The amount of audience we have is wide, so you can always count on us for getting your Articles read by many people.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+								<i class="nc-icon nc-satisfied"></i>
+							</div>
+							<div class="description">
+								<h4 class="info-title" style="color:#ffffff;">Youth's Involvement</h4>
+								<p class="description" style="color:#cccccc;">Nepali Writers inspires aspiring youth writers to work, share, and learn from fellow writers through our platform!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+            <div class="section text-center" id="blog">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">Blog</h2>
+                        <h5 class="description" >We aim to extend our community to a large scale and offer a variety of interesting reads.<br><br> Our blog covers a large number of members covering a wide range of categories both in Nepali as well as English Languages. <br> Here are the different categories of posts in our blog section! </h5>
+                        <br>
+                    </div>
+                </div>
+				<br/><br/>
+				<div class="row justify-content-center">
+                    {% for category in category_list %}
+					<div class="col-md-3">
+						<div class="info">
+							<div class="description">
+                                <div class="content-center">
+                                    <a href="{% url 'category_listing' pk=category.id %}" ><img src="{{category.category_image.url}}" style="height:11em; width:10em;" class="img-circle img-no-padding img-responsive"></a></div>
+                                <h3><a href="{% url 'category_listing' pk=category.id %}" ><strong  style="color:#ed5c1a;">{{ category.name}}</strong></a></h3>
+
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+				</div>
+            </div>
+        </div>
 <hr>
-<img src="{{category.category_image.url}}">
-<h3><a href="{% url 'category_listing' pk=category.id %}" >{{{ category.name}}</a></h3>
-{% endfor %}
-
-<h1>Top Posts</h1>
-
-{% for post in post_list %}
-<hr>
-<a href="{% url 'post_detail' pk=post.id %}">
-<h3>{{ post.title}}</h3></a>
-<img src="{{post.image.url}}">
-<h5>{{ post.caption}}</h5>
-By {{post.author}}
+            <div class="section text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">Top Posts</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="container">
+            <div class="row">
 
 
-{% endfor %}
+                    <MARQUEE loop="infinite" behavior="scroll" direction="left" width="100%">
+
+   {% for post in post_list %}<a href="{% url 'post_detail' pk=post.id %}">
+                                <img src="{{post.image.url}}" style="height:200px; width:300px;" id="post_img"  title="{{post.title}}">
+                            </a>{% endfor %}
+        </MARQUEE>
+
+            </div>
+        </div>
+            <br><br>
+		<div class="section section-dark text-center">
+            <div class="container">
+                <h2 class="title">Let's talk about us</h2>
+                <p><strong>The strong team behind the success</strong></p>
+				<div class="row">
+    				<div class="col-md-3">
+                        <div class="card card-profile card-plain">
+                            <div class="card-avatar">
+                                <a href="#avatar"><img src="{% static 'img/abhash.jpg' %}" alt="..."></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#paper-kit">
+                                    <div class="author">
+                                        <h4 class="card-title">Abhash Acharya</h4>
+                                        <h6 class="card-category">Editor-In-Chief</h6>
+                                    </div>
+                                </a>
+                                <p class="card-description text-center">
+                                Teamwork is so important that it is virtually impossible for you to reach the heights of your capabilities or make the money that you want without becoming very good at it.
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-twitter"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-google-plus"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+    				</div>
+
+    				<div class="col-md-3">
+                        <div class="card card-profile card-plain">
+                            <div class="card-avatar">
+                                <a href="#avatar"><img src="{% static 'img/misan.jpg' %}" alt="..."></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#paper-kit">
+                                    <div class="author">
+                                        <h4 class="card-title">Misan Baral</h4>
+                                        <h6 class="card-category">Member</h6>
+                                    </div>
+                                </a>
+                                <p class="card-description text-center">
+                                A group becomes a team when each member is sure enough of himself and his contribution to praise the skill of the others. No one can whistle a symphony. It takes an orchestra to play it.
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-twitter"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-google-plus"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+    				</div>
+
+    				<div class="col-md-3">
+                        <div class="card card-profile card-plain">
+                            <div class="card-avatar">
+                                <a href="#avatar"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="..."></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#paper-kit">
+                                    <div class="author">
+                                        <h4 class="card-title">Ankit Khanal</h4>
+                                        <h6 class="card-category">Member</h6>
+                                    </div>
+                                </a>
+                                <p class="card-description text-center">
+                                The strength of the team is each individual member. The strength of each member is the team. If you can laugh together, you can work together, silence isn’t golden, it’s deadly.
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-twitter"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-google-plus"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+    				</div>
+                    <div class="col-md-3">
+                        <div class="card card-profile card-plain">
+                            <div class="card-avatar">
+                                <a href="#avatar"><img src="../assets/img/faces/erik-lucatero-2.jpg" alt="..."></a>
+                            </div>
+                            <div class="card-body">
+                                <a href="#paper-kit">
+                                    <div class="author">
+                                        <h4 class="card-title">Shreeti Shrestha</h4>
+                                        <h6 class="card-category">Developer</h6>
+                                    </div>
+                                </a>
+                                <p class="card-description text-center">
+                                The strength of the team is each individual member. The strength of each member is the team. If you can laugh together, you can work together, silence isn’t golden, it’s deadly.
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-twitter"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-google-plus"></i></a>
+                                <a href="#pablo" class="btn btn-link btn-just-icon btn-neutral"><i class="fa fa-linkedin"></i></a>
+                            </div>
+                        </div>
+    				</div>
+    			</div>
+        	</div>
+    	</div>
+
+            <div class="section landing-section" id="contact">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="text-center" style="text-align:centre;">Keep in touch</h2>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="container">
+                        <div class="row">
+
+                                <img src="{% static 'img/2.png' %}" style="width:59%;">
+                         &nbsp;&nbsp;&nbsp;&nbsp;
+                            <br><br><br>
+                                <div class="col-md-4">
+                                <div class="card" style="background-color:#343738; color:white;"><br>
+                                    <h3 class="title" style="text-align:center; color:white;">Contact Us @</h3>
+								    <div class="social-line text-center">
+                                        <a href="#pablo" class="btn btn-neutral btn-facebook btn-just-icon btn-lg">
+                                            <i class="fa fa-facebook-square"></i>
+                                        </a>
+                                        <a href="#pablo" class="btn btn-neutral btn-google btn-just-icon btn-lg">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                        <a href="#pablo" class="btn btn-neutral btn-twitter btn-just-icon btn-lg">
+                                            <i class="fa fa-twitter"></i>
+                                        </a><br><br><br>
+                                        <p style="text-align:center; color:white;"><b>You can also be a part of us.<br>Sign Up and Login into our blog.
+                                            <br> Be a Member of Nepali Writers.</b></p>
+                                           <br><br>
+                                            <div class="row justify-content-center">
+                                            <div class="col-md-5">
+                                            <a href="{% url 'login' %}"> <button class="btn btn-success btn-round btn-md btn-block">Sign In</button></a><br>
+                                                <a href="{% url 'signup' %}"> <button class="btn btn-danger btn-round btn-md btn-block">Sign Up</button></a>
+        <br><br>                                    </div></div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
 {% endblock %}

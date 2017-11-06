@@ -50,6 +50,7 @@
 {% else %}
 No comments found for this post. Be the first one to comment!
 {% endif %}
+{% if user.is_authenticated %}
 <form action="{% url 'post_comment' pk=post.id %}" method="GET" enctype="multipart/form-data" style="text-align:center;" id="commentform">
         {% csrf_token %}
             <div class="input-group form-group-no-border input-md col-md-12 ">
@@ -59,4 +60,5 @@ No comments found for this post. Be the first one to comment!
                     <button type="submit" class="btn btn-success btn-round">Comment</button>
 
         </form>
+{% endif %}
 {% endblock %}

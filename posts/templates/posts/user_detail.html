@@ -2,18 +2,50 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
-<img src="{{usercontext.profile_pic.url}}">
-<h1>{{usercontext.first_name}}
-{{usercontext.last_name}}</h1>
-{{usercontext.username}}<br>
-{{usercontext.email}}<br>
-{{usercontext.bio}}<br>
-{{usercontext.location}}<br>
-{{usercontext.birth_date}}
+<div class="main" style="padding-top:50px;">
+    <div class="section text-center" style="background:url('{% static 'img/backuser.png' %}') no-repeat; -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;;  color:#eeeeee;" >
+         <div class="container">
 
-<h1>My Posts</h1>
-{% for mypost in my_post_list %}
-<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
-{% endfor %}
+        <div class="row">
+
+                <div class="col-md-5">
+
+                            <div class="header" style="color:#444444">
+                                    <img src="{{usercontext.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive " style="height:25em; border:7px solid white;">
+                                    <h3>@{{usercontext.username}}</h3>
+                                    <h2>{{usercontext.first_name}} {{usercontext.last_name}}</h2>
+
+                            </div>
+
+                </div>
+
+                <div class="col-md-6">
+                    <buttton class="btn btn-danger btn-round btn-md" style="margin-bottom:50px; margin-top:50px;" id="abtmebtn">About Me</buttton>&nbsp;&nbsp;&nbsp;
+                    <a href="{% url 'my_validation_list' %}"><buttton class="btn btn-danger btn-round btn-md" style="margin-bottom:50px; margin-top:50px;" id="mypostbtn">My Posts</buttton></a>&nbsp;&nbsp;&nbsp;
+                    {% if user.username == usercontext.username %}
+                    <a href="{% url 'updateprofile' pk=user.id %}"> <button class="btn btn-danger btn-round btn-md" style="margin-bottom:50px; margin-top:50px;">Update Profile</button></a>
+                    {% endif %}
+                    <button></button>
+                    <div class="card" style="background-color:#ed5c1a; padding-top:50px;padding-bottom:50px;" id="aboutme">
+                            <div class="header" style="color:#eeeeee;">
+                                 <h2>{{usercontext.first_name}} {{usercontext.last_name}}</h2>
+                                    <h3>{{usercontext.email}}</h3>
+                                    <h5>{{usercontext.location}}</h5>
+                                    <p> Date of Birth : {{usercontext.birth_date}}</p>
+                                   <h5>{{usercontext.bio}}</h5>
+                            </div>
+
+                    </div>
+                </div>
+
+        </div>
+
+    </div>
+    </div>
+
+</div>
 
 {% endblock %}

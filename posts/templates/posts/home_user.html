@@ -1,9 +1,103 @@
 {% extends 'baselogged.html' %}
 {% load staticfiles %}
+{%block navigation1%}
 
+<li class="nav-item">
+    <a href="{% url 'userprofile' pk=user.id %}" class="nav-link">Hello {{user}}</a>
+</li>
+{%endblock%}
 {% block bodycontent %}
+<div class="main">
+			<div class="section text-center" style="background-color:#264b56; width:100%;" id="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-9 ml-auto mr-auto">
+                        <h2 class="title" style="color:#ffffff;">Welcome {{user}}!!!</h2>
+                        <h5 class="description" style="color:#cccccc;">Thank you so much for being a part of the Nepali Writers team and sharing up your creativity and knowledge through our platform.<br><br>Keep posting and reading new blogs and encourage more people to get involved. <br>
+                        Uniting Nepalese for Creativity</h5>
+                        <br>
+                        <button class="btn btn-danger btn-round">Get Started</button>
+                    </div>
+                </div>
+				<br/><br/>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'post_add' %}"><i class="nc-icon nc-simple-add"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'post_add' %}"><h4 class="info-title" style="color:#ffffff;" >Add New Post</h4></a><br>
+								<p class="description" style="color:#cccccc;"> Share your latest post and gain feedbacks.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'userprofile' pk=user.id %}"><i class="nc-icon nc-satisfied"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'userprofile' pk=user.id %}"> <h4 class="info-title" style="color:#ffffff;">My Profile</h4></a><br>
+								<p class="description" style="color:#cccccc;">Visit your profile and see it from others perspective.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'updateprofile' pk=user.id %}"><i class="nc-icon nc-settings"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'updateprofile' pk=user.id %}"><h4 class="info-title" style="color:#ffffff;">Update Profile</h4></a><br>
+								<p class="description" style="color:#cccccc;">Edit your portfolio and change your profile picture :)</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                               <a href="{% url 'my_validation_list' %}"><i class="nc-icon nc-satisfied"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'my_validation_list' %}"><h4 class="info-title" style="color:#ffffff;">My Posts</h4></a><br>
+								<p class="description" style="color:#cccccc;">Review your posts and see the audiences it has gathered.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+    <div class="page-header"  style="background-image: url('{% static 'img/Productivity.png' %}');">
+		<div class="filter"></div>
+		<div class="container">
+			<div class="motto text-center">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h2 class="title">Categories</h2><br>
+                    </div>
+                </div>
+				<br/><br/>
+				<div class="row justify-content-center">
+                    {% for category in category_list %}
+					<div class="col-md-3">
+						<div class="info">
+							<div class="description">
+                                <div class="content-center">
+                                    <a href="{% url 'category_listing' pk=category.id %}" ><img src="{{category.category_image.url}}" style="height:11em; width:10em;" class="img-circle img-no-padding img-responsive"></a></div>
+                                <h3><a href="{% url 'category_listing' pk=category.id %}" ><strong  style="color:#ed5c1a;">{{ category.name}}</strong></a></h3>
 
-Hello {{user}}<br>
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+				</div>
+			</div>
+            </div>
+	</div>
+</div>
+
+
 {% for each in usercontext %}
 <a href="{% url 'userprofile' pk=each.id %}"> <button>View my Profile</button></a>
 <a href="{% url 'updateprofile' pk=each.id %}"><button>Update my Profile</button></a>{% endfor %}
@@ -33,6 +127,5 @@ Hello {{user}}<br>
     By <a href="{% url 'userprofile' pk=post.author.id %}">{{post.author}}</a>
 
 {% endfor %}
-
 
 {% endblock %}

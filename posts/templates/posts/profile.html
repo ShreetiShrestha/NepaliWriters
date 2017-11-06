@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block bodycontent%}
+
+
+
 <form action="{% url 'updateprofile' pk=user.id %}" method="post" enctype="multipart/form-data" >
     {% csrf_token %}
     {% include 'accounts/form-template.html' %}

@@ -60,7 +60,8 @@ class PostDetail(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PostDetail, self).get_context_data(*args, **kwargs)
-        context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        if self.request.user.is_authenticated:
+            context['my_post_list'] = Post.objects.filter(author=self.request.user)
         context['category_list'] = Category.objects.all()
         context['comment_list'] = Comment.objects.filter(post=self.kwargs['pk'])
         return context
@@ -271,7 +272,6 @@ class CommentPost(DetailView):
         return HttpResponseRedirect('/')
 
 
-@method_decorator(login_required, name='dispatch')
 class CategoryPostList(ListView):
     model=Post
     template_name = 'posts/category_post_list.html'
@@ -280,3 +280,6 @@ class CategoryPostList(ListView):
         context = super(CategoryPostList, self).get_context_data(*args, **kwargs)
         context['post_list'] = Post.objects.filter(category=Category.objects.get(id=self.kwargs['pk']))
         return context
+#
+# def test(request):
+#     return render(request, 'accounts/test.html', context=None)

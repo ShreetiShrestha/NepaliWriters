@@ -2,12 +2,14 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
+{% if user == post.author %}
 <h1>Posts Under Review</h1>
 {% for each in review_list %}
 <br>{{each.title}}
 {{each.date}}
 <a href="{% url 'review_post_detail' pk=each.id %}">See More..</a>
 {% endfor %}
+{% endif %}
 <h1>My Posts</h1>
 {% for post in post_list %}
 <br>{{post.title}}
