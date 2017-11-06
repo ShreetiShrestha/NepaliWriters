@@ -1,13 +1,33 @@
-{% extends 'base.html' %}
+{% extends 'baselogged.html' %}
 {% load staticfiles %}
 {% block bodycontent%}
+<div class="main">
+
+    <div class="section" style="background:url('{% static 'img/updateprofile.png' %}') no-repeat; margin-top:75px; height:100%;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;">
+        <div class="container">
+<br>
+            <div class="row justify-content-start" style="color:white;">
+                <div style="margin-bottom:50px;">
+
+                    <br>
+                    <form action="{% url 'updateprofile' pk=user.id %}" method="post" enctype="multipart/form-data" id="signupform" >
+                        {% csrf_token %}
+                        {% include 'accounts/form-template.html' %}
+                        <button type="submit" class="btn btn-success btn-md btn-round col-md-5">Submit</button><br>
+
+                    </form>
+                    <a href="{% url 'change_password' %}"><button class="btn btn-danger btn-md btn-round col-md-5"style="margin-top:10px;">Change Password</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
-<form action="{% url 'updateprofile' pk=user.id %}" method="post" enctype="multipart/form-data" >
-    {% csrf_token %}
-    {% include 'accounts/form-template.html' %}
-    <button type="submit">Submit</button>
-    <button><a href="{% url 'change_password' %}">Change Password</a></button>
-</form>
+
 {% endblock %}

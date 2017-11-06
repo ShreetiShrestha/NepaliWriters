@@ -2,6 +2,40 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
+<div class="main">
+    <div class="section">
+        <div class="page-header" style="background:url('{% static 'img\categorylistbg.png' %}')no-repeat; height:100%;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;">
+            <div class="motto text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="justify-content-start">
+                        <div class="col-md-6">
+                            <div class="card card-register"></div>
+                               {% for each in category_list %}
+                               {{each.name}}
+                               {% endfor %}
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                                <div class="card card-register"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <h1>{{post.category}}</h1>
 {% for post in post_list %}
 <br>{{post.title}}

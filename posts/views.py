@@ -279,6 +279,7 @@ class CategoryPostList(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(CategoryPostList, self).get_context_data(*args, **kwargs)
         context['post_list'] = Post.objects.filter(category=Category.objects.get(id=self.kwargs['pk']))
+        context['category_list'] = Category.objects.filter(id=self.kwargs['pk'])
         return context
 #
 # def test(request):

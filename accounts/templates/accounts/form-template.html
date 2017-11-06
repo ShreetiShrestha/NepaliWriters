@@ -1,11 +1,18 @@
 {% for field in form %}
 
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+    <div class="form-group ">
+        <div class="col-sm-offset-1 col-sm-10">
            <span class="text-danger small">{{ field.error }}</span>
         </div>
-        <label class="control-label col-sm-2">{{ field.label_tag }}</label>
-        <div class="col-sm-10">{{ field }}</div>
+        <label class="control-label col-sm-8"><h6>{{ field.label_tag }}</h6></label>
+        <!-- if field.name == 'birth_date'-->
+       <!--<div class="input-group form-group-no-border input-lg">-->
+           <!--<input type="date" name= "birth_date" class="form-control datetimepicker" />-->
+       <!--</div>-->
+        <!-- else -->
+
+        <div class="col-sm-12" >{{ field }}</div>
+        <!--endif -->
     </div>
 
 {% endfor %}
