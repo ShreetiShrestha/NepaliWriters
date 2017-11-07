@@ -100,10 +100,10 @@
 					<div class="col-md-3">
 						<div class="info">
 							<div class="icon icon-danger">
-                               <a href="{% url 'my_validation_list' %}"><i class="nc-icon nc-satisfied"></i></a>
+                               <a href="{% url 'my_validation_list' pk=user.id%}"><i class="nc-icon nc-satisfied"></i></a>
 							</div>
 							<div class="description">
-                                <a href="{% url 'my_validation_list' %}"><h4 class="info-title" style="color:#ffffff;">My Posts</h4></a><br>
+                                <a href="{% url 'my_validation_list' pk=user.id%}"><h4 class="info-title" style="color:#ffffff;">My Posts</h4></a><br>
 								<p class="description" style="color:#cccccc;">Review your posts and see the audiences it has gathered.</p>
 							</div>
 						</div>

@@ -15,11 +15,11 @@ urlpatterns = [
     url(r'^reject/(?P<pk>\d+)$', views.reject.as_view(), name='reject_post'),
     url(r'^update/(?P<pk>\d+)$', views.UpdatePost.as_view(), name='update_post'),
     url(r'^delete/(?P<pk>\d+)$', views.DeletePost.as_view(), name='delete_post'),
-    url(r'^myvalidation/$', views.ReviewPostList.as_view(), name='my_validation_list'),
+    url(r'^myvalidation/(?P<pk>\d+)$', views.ReviewPostList.as_view(), name='my_validation_list'),
     url(r'^cancelmyvalidation/(?P<pk>\d+)$', views.CancelReview.as_view(), name='cancel_my_validation'),
     url(r'^like/(?P<pk>\d+)$', views.LikePost.as_view(), name='like_post'),
     url(r'^unlike/(?P<pk>\d+)$', views.UnlikePost.as_view(), name='unlike_post'),
     url(r'^comment/(?P<pk>\d+)$', views.CommentPost.as_view(), name='post_comment'),
     url(r'^category/posts/(?P<pk>\d+)$', views.CategoryPostList.as_view(), name='category_listing'),
-    # url(r'^test/$',views.test, name='test'),
+    url(r'^category/add/$',views.AddCategory.add_new, name='category_add'),
 ]

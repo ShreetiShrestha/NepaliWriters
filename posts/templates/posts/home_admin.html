@@ -15,6 +15,7 @@ Hello admin
 {% endfor %}
 <br>
 <h1>Categories</h1>
+<a href="{% url 'category_add' %}" class="btn btn-success btn-lg">Add Category</a>
 {% for category in category_list %}
 <hr>
 <img src="{{category.category_image.url}}">
@@ -24,6 +25,7 @@ Hello admin
 
 
 {% else %}
+<br><br><br><br><br>
 <h1 style="color:red;">Permission Denied</h1>
 {% endif %}
 {% endblock %}

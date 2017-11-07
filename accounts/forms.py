@@ -30,3 +30,9 @@ class PostToReviewForm(forms.ModelForm):
     class Meta:
         model=PostToReview
         fields = ('title','caption','author','description','image','category',)
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model=Category
+        fields = ('name','category_image')

@@ -1,20 +1,134 @@
 {% extends 'baselogged.html' %}
 {% load staticfiles %}
+{% block headcontent %}
+<style>
+.containerimg {
+  position: relative;
+  width: 15em;
+}
 
+.image {
+  display: block;
+  height:15em;
+  width:15em;
+  margin-bottom:15px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.containerimg:hover .overlay {
+  width: 100%;
+  left: 0;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 18px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+</style>
+{% endblock %}
 {% block bodycontent %}
-{% if user == post.author %}
-<h1>Posts Under Review</h1>
-{% for each in review_list %}
-<br>{{each.title}}
-{{each.date}}
-<a href="{% url 'review_post_detail' pk=each.id %}">See More..</a>
-{% endfor %}
-{% endif %}
-<h1>My Posts</h1>
-{% for post in post_list %}
-<br>{{post.title}}
-{{post.date}}
-<a href="{% url 'post_detail' pk=post.id %}">See More..</a>
-{% endfor %}
+<div class="main" style="padding-top:50px;">
+    <div class="section text-center" style="background:url('{% static 'img/postlist1.png' %}') no-repeat; -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;;  color:#eeeeee;" >
+         <div class="container">
+            <div class="row">
+                {% if user.id == usercontext.0.id %}
+                <div class="col-md-4">
+                    <div class="header" style="color:#444444">
+                                    <img src="{{usercontext.0.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive " style="height:25em; border:7px solid white;">
+                                    <h3>@{{usercontext.0.username}}</h3>
+                                    <h2>{{usercontext.0.first_name}} {{usercontext.0.last_name}}</h2>
+
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h1>My Posts</h1><br>
+                    <div class="container">
+	                    <div class="row justify-content-center">
+                    {% for post in post_list %}
+                            <div class="containerimg">
+                                <a href="{% url 'post_detail' pk=post.id %}"><img src="{{post.image.url}}"  alt="Avatar" class="image"></a>
+                                <a href="{% url 'post_detail' pk=post.id %}"><div class="overlay">
+                                    <div class="text"><h5>{{post.title}}</h5><br>{{post.date}}</div>
+                                </div></a>
+                            </div>&nbsp;&nbsp;&nbsp;
+                    {% endfor %}
+                        </div>
+                    </div>
+                    <br>
+                    <h1> Posts Under Review </h1><br>
+                    <div class="container">
+	                    <div class="row justify-content-center">
+                    {% if review_list %}
+                            {% for post in review_list %}
+                                <div class="containerimg">
+                                    <a href="{% url 'review_post_detail' pk=post.id %}"><img src="{{post.image.url}}"  alt="Avatar" class="image"></a>
+                                    <a href="{% url 'review_post_detail' pk=post.id %}"><div class="overlay">
+                                        {% if post.status == 'Rejected' %}<div class="text" style="color:red;"><h5>{{post.title}}</h5><br><b>{{post.status}}</b></div>{%else%}
+                                        <div class="text" style="color:yellow;"><h5>{{post.title}}</h5><br>{{post.status}}</div>{%endif%}
+                                    </div></a>
+                                </div>&nbsp;&nbsp;&nbsp;{% endfor %}
+                    {% else %}
+                    <h3 style="color:#eeeeee;"> You have got no posts to be reviewed. <br> Would you like to add new post?</h3><br>
+                            {% endif %}
+
+                </div>
+                </div><a href="{% url 'post_add' %}"><button class="btn btn-success btn-md" style="margin-top:15px;">Add New Post</button></a><br>
+                </div>
+                {% else %}
+                 <div class="col-md-4">
+
+                            <div class="header" style="color:#444444">
+                                    <img src="{{usercontext.0.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive " style="height:25em; border:7px solid white;">
+                                    <h3>@{{usercontext.0.username}}</h3>
+                                    <h2>{{usercontext.0.first_name}} {{usercontext.0.last_name}}</h2>
+
+                            </div>
+
+                 </div>
+                 <div class="col-md-8">
+                    <h1>My Posts</h1><br>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            {% for post in user_post_list %}
+                                        <div class="containerimg">
+                                            <a href="{% url 'post_detail' pk=post.id %}"><img src="{{post.image.url}}"  alt="Avatar" class="image"></a>
+                                            <a href="{% url 'post_detail' pk=post.id %}"><div class="overlay">
+                                                <div class="text"><h5>{{post.title}}</h5><br>{{post.date}}</div>
+                                            </div></a>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                            {% endfor %}
+                        </div>
+                    </div>
+                 </div>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock %}

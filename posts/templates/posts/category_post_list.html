@@ -1,45 +1,104 @@
 {% extends 'baselogged.html' %}
 {% load staticfiles %}
+{% block headcontent %}
+<style>
+.containerimg {
+  position: relative;
+  width: 12em;
+}
 
+.image {
+  display: block;
+  height:10em;
+  width:12em;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.containerimg:hover .overlay {
+  width: 100%;
+  left: 0;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+</style>
+{% endblock %}
 {% block bodycontent %}
-<div class="main">
-    <div class="section">
-        <div class="page-header" style="background:url('{% static 'img\categorylistbg.png' %}')no-repeat; height:100%;
-        -webkit-background-size: cover;
+<div class="main" style="padding-top:50px;">
+    <div class="section text-center" style="background:url('{% static 'img/backuser.png' %}') no-repeat; -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
-        background-size: cover;">
-            <div class="motto text-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="justify-content-start">
-                        <div class="col-md-6">
-                            <div class="card card-register"></div>
-                               {% for each in category_list %}
-                               {{each.name}}
-                               {% endfor %}
-                        </div>
-                        </div>
-                        <div class="col-md-6">
-                                <div class="card card-register"></div>
-                        </div>
+        background-size: cover;;  color:#eeeeee;" >
+         <div class="container">
+
+        <div class="row">
+
+                <div class="col-md-4">
+
+                            <div class="header" style="color:#444444">
+                                    <img src="{{category_list.0.category_image.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive " style="height:25em; border:7px solid white;">
+                                <h3 style="color:#ed5c1a;"><b>{{category_list.0.name}}</b></h3>
+                            </div>
+
+                </div>
+
+{% if post_list %}
+                <div class="col-md-8">
+
+                    <buttton class="btn btn-danger btn-round btn-lg" style="margin-bottom:50px; margin-top:50px;" >Top {{category_list.0.name}}</buttton>&nbsp;&nbsp;&nbsp;
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'post_add' %}" class="btn btn-danger btn-round btn-lg" style="margin-bottom:50px; margin-top:50px;">Add New</a>
+                    {% endif %}
+                    <div class="card" style="background-color:#264b56; padding-top:50px;padding-bottom:50px;" id="categorylist">
+                            <div class="header" style="color:#eeeeee;">
+                                 <MARQUEE loop="infinite" behavior="scroll" direction="left" width="100%" scrolldelay="30">
+                                     <div class="row">
+                                      {% for post in post_list %}
+                                        <div class="containerimg">
+                                            <a href="{% url 'post_detail' pk=post.id %}"><img src="{{post.image.url}}"  alt="Avatar" class="image" style="margin-bottom:10px;"></a>
+                                            <a href="{% url 'post_detail' pk=post.id %}">
+                                            <div class="overlay">
+                                                <div class="text">{{post.title}}</div>
+                                            </div></a>
+                                        </div>&nbsp;&nbsp;&nbsp;
+                                    {% endfor %}
+                                    </div>
+                                 </MARQUEE>
+                            </div>
                     </div>
                 </div>
+{% else %}
+            <div class="col-md-8">
+                <div class="card" style="background-color:#264b56; padding-top:50px;padding-bottom:50px; color:#eeeeee;">
+                    <div class="header justify-content-center">
+                        <h3 style="margin-left:50px; margin-right:50px;">Sorry, no posts found in this category yet. Would you like to add one?</h3>
+                         <a href="{% url 'post_add' %}" class="btn btn-danger btn-round btn-lg col-md-4" style="margin-bottom:50px; margin-top:50px;">Add New</a>
+                    </div>
+                </div>
+            </div>
+{% endif %}
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-<h1>{{post.category}}</h1>
-{% for post in post_list %}
-<br>{{post.title}}
-{{post.date}}
-<a href="{% url 'post_detail' pk=post.id %}">See More..</a>
-{% endfor %}
 {% endblock %}

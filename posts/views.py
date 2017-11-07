@@ -9,6 +9,7 @@ from accounts.forms import *
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.datastructures import MultiValueDictKeyError
 
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
@@ -47,7 +48,7 @@ class Userview(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(Userview, self).get_context_data(*args, **kwargs)
-        context['post_list'] = Post.objects.all()[:6]
+        context['post_list'] = Post.objects.all()[:5]
         context['my_post_list'] = Post.objects.filter(author=self.request.user)
         context['usercontext'] = User.objects.filter(username=self.request.user)
         return context
@@ -87,7 +88,10 @@ class PostToReviewCreate(CreateView):
             form = PostToReviewForm(request.POST or None, request.FILES or None)
             if form.is_valid():
                 newpost = form.save(commit=False)
-                newpost.image = (request.FILES['image'])
+                try:
+                    newpost.image = request.FILES['filepath']
+                except MultiValueDictKeyError:
+                    newpost.image = False
                 newpost.no_of_like = 0
                 newpost.no_of_comment = 0
                 newpost.date = datetime.date.today()
@@ -138,6 +142,8 @@ def change_password(request):
 class validate(DetailView):
     def get(self, request, **kwargs):
         postreview = PostToReview.objects.get(id=self.kwargs['pk'])
+        # categoryreviewed=Category.objects.get(name=postreview.category)
+        # print(categoryreviewed)
         if postreview.status == 'Pending' and request.user.is_superuser:
             newpost = Post(title=postreview.title, caption=postreview.caption, author=postreview.author,
                            description=postreview.description, image=postreview.image, category=postreview.category,
@@ -146,9 +152,9 @@ class validate(DetailView):
             newpost.save()
             postreview.status = 'Accepted'
             postreview.save()
-            return HttpResponse("Validation Successful")
+            return render(request,'accepted.html',context=None)
         else:
-            return HttpResponse("Access Denied")
+            return render(request,'accessdenied.html',context=None)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -158,9 +164,9 @@ class reject(DetailView):
         if postreview.status == 'Pending' and request.user.is_superuser:
             postreview.status = 'Rejected'
             postreview.save()
-            return HttpResponse("Rejected")
+            return render(request,'rejected.html',context=None)
         else:
-            return HttpResponse("Access Denied")
+            return render(request,'accessdenied.html',context=None)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -174,6 +180,8 @@ class ReviewPostList(ListView):
         p = PostToReview.objects.filter(author=self.request.user)
         context['review_list'] = p.filter(status='Pending') | p.filter(status='Rejected')
         context['post_list'] = Post.objects.filter(author=self.request.user)
+        context['user_post_list'] = Post.objects.filter(author__in=User.objects.filter(id=self.kwargs['pk']))
+        context['usercontext'] = User.objects.filter(id=self.kwargs['pk'])
         return context
 
 
@@ -281,6 +289,20 @@ class CategoryPostList(ListView):
         context['post_list'] = Post.objects.filter(category=Category.objects.get(id=self.kwargs['pk']))
         context['category_list'] = Category.objects.filter(id=self.kwargs['pk'])
         return context
-#
-# def test(request):
-#     return render(request, 'accounts/test.html', context=None)
+
+
+@method_decorator(login_required, name='dispatch')
+class AddCategory(CreateView):
+    model = Category
+    def add_new(request):
+        if request.method == "POST":
+            form = CategoryForm(request.POST or None, request.FILES or None)
+            if form.is_valid():
+                newcat = form.save(commit=False)
+                newcat.category_image = (request.FILES['category_image'])
+                newcat.no_of_post = 0
+                newcat.save()
+                return HttpResponseRedirect('/')
+        else:
+            form = CategoryForm()
+        return render(request, 'accounts/category_form.html', {'form': form})

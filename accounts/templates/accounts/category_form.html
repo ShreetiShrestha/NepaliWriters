@@ -1,32 +1,32 @@
 {% extends 'baselogged.html' %}
 {% load staticfiles %}
-
-{% block bodycontent %}
+{% block bodycontent%}
 <div class="main">
 
-    <div class="section" style="background:url('{% static 'img/updatepagebg.png' %}') no-repeat;  width:100%; height:100%;
+    <div class="section" style="background:url('{% static 'img/postaddbg.png' %}') no-repeat;  height:100%;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;">
         <div class="container">
             <div class="header">
-                <h1 style="text-align:center; color:#111111;">Update Post</h1>
+                <h1 style="text-align:center; color:#111111;">Add New Category</h1>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-end">
                 <div style="margin-bottom:50px;">
                     <br>
-                   <form action="{% url 'update_post' pk=post.id %}" method="post" enctype="multipart/form-data" style="color:#ffffff;" class="register-form">
+               <form action="{% url 'category_add' %}" method="post" enctype="multipart/form-data" style="color:#ffffff;" >
     {% csrf_token %}
     {% include 'accounts/form-template.html' %}
                    <div class="row justify-content-end">
-    <button type="submit" class="btn btn-success btn-md btn-round col-md-4">Submit</button></div>
+    <button type="submit" class="btn btn-success btn-md btn-round col-md-4" style="margin-bottom:100px;">Submit</button></div>
 </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
