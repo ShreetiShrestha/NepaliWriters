@@ -2,20 +2,50 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
-<h1>Post to be reviewed</h1>
-{{post.status}}
+<div class="main" >
+    <div class="section" style="background-color:#E4E3E0">
+        <div class="container" >
+            <div class="row" style="padding-top:5em;">
+                <div class="col-md-3">
+                    <div class="card" style="background-color:#264b56; margin-top:10em;">
+                        <div class="container justify-content-center" style="color:white;">
 
-<h1>Pending Posts</h1>
-<h2>{{post.title}}</h2><hr>
-<i>{{post.caption}}</i><br>
-<img src="{{post.image.url}}">
-<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{post.author}}</a></h3><br>
-{{post.date}}  <a href="{% url 'category_listing' pk=post.category.id %}" >{{post.category}}</a>
-<pre><p>{{post.description}}</p></pre>
-{% if user.is_superuser %}
-<a href="{% url 'validate_post' pk=post.id %}"><button>Validate</button></a>
-<a href="{% url 'reject_post' pk=post.id %}"><button>Reject</button><br></a>
-{% else %}
-<a href="{% url 'cancel_my_validation' pk=post.id%}"><button>Cancel Submission</button></a>
-{% endif %}
+                            <a href="{% url 'userprofile' pk=post.author.id %}">
+                            <img src="{{post.author.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive justify-content-center ">
+                            </a><b><h4 style="text-align:center">@<a href="{% url 'userprofile' pk=post.author.id %}">{{post.author.username}}</a></h4>
+                            <h3 style="text-align:center">{{post.author.first_name}} {{post.author.last_name}}</h3>
+                            <p style="text-align:center">{{post.author.email}}</p></b>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="header">
+                        <h1>{{post.title}}</h1>
+                        <h6 style="color:orange; padding-left:1em; padding-top:1em;">Status : {{post.status}} </h6>
+                        <hr>
+                        <i><b>{% if post.caption %}{{post.caption}}{%endif%} &nbsp; {{post.date}} &nbsp;<a href="{% url 'category_listing' pk=post.category.id %}" >{{post.category}}</a></b></i><br>
+                    </div>
+                    <div class="container justify-content-center">
+                        <img src="{{post.image.url}}" alt="post_image" class="image img-responsive img-rounded" style="width:100%; margin-top:.5em;">
+                            <pre><p style="margin-top:1em;"><b>{{post.description}}</b></p></pre><hr>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="container " style="margin-top:10em;">
+                        {% if user.is_superuser %}
+                        <a href="{% url 'validate_post' pk=post.id %}"><button class="btn btn-success btn-md btn-round col-md-8" style="margin:1em;"><i class="nc-icon nc-check-2"></i> Validate</button></a><br>
+                        <a href="{% url 'reject_post' pk=post.id %}"><button class="btn btn-danger btn-md btn-round col-md-8" style="margin:1em;"><i class="nc-icon nc-simple-remove"></i> Reject</button><br></a>
+                        {% else %}
+                        <a href="{% url 'cancel_my_validation' pk=post.id%}"><button class="btn btn-danger btn-md btn-round"><i class="nc-icon nc-simple-remove"></i> Cancel Submission</button></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

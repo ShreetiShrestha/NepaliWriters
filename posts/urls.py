@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^comment/(?P<pk>\d+)$', views.CommentPost.as_view(), name='post_comment'),
     url(r'^category/posts/(?P<pk>\d+)$', views.CategoryPostList.as_view(), name='category_listing'),
     url(r'^category/add/$',views.AddCategory.add_new, name='category_add'),
+    url(r'^search/$', views.Searchbar, name='search'),
+
 ]

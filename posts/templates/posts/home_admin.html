@@ -1,29 +1,178 @@
 {% extends 'baselogged.html' %}
 {% load staticfiles %}
+{% block headcontent %}
+<style>
+.containerimg {
+  position: relative;
+  width: 12em;
+}
+
+.image {
+  display: block;
+  height:10em;
+  width:12em;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.containerimg:hover .overlay {
+  width: 100%;
+  left: 0;
+}
+
+.text {
+  white-space: nowrap;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
+</style>
+{% endblock %}
 
 {% block bodycontent %}
 {% if user.is_superuser %}
-Hello admin
-<hr>
-<h1>Posts to be Reviewed</h1>
-{% for each in post_review_list %}
-<br><a href="{% url 'review_post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=each.author.id %}">{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}<br>
-{% endfor %}
-<h1>Posts</h1>
-{% for each in post_list %}
-<br><a href="{% url 'post_detail' pk=each.id %}"><b>{{ each.title}}</b></a> <a href="{% url 'userprofile' pk=each.author.id %}">{{each.author}}</a> {{each.date}} {{each.no_of_like}} {{each.no_of_comment}}
-{% endfor %}
-<br>
-<h1>Categories</h1>
-<a href="{% url 'category_add' %}" class="btn btn-success btn-lg">Add Category</a>
-{% for category in category_list %}
-<hr>
-<img src="{{category.category_image.url}}">
-<h3><a href="{% url 'category_listing' pk=category.id %}" >{{ category.name}}</a></h3>
-<h5>{{ category.no_of_post }}</h5>
-{% endfor %}
+<div class="main">
+    <div class="section text-center" style="background-color:#264b56; width:100%;">
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-9 ml-auto mr-auto">
+                        <h2 class="title" style="color:#ffffff;">Welcome {{user}}!!!</h2>
+                        <h5 class="description" style="color:#cccccc;">Welcome back, admin!! There has been a lot of activities on the blog since your last visit. You can review all the new posts submitted by the group members and validate them here.</h5>
+                        <br>
+                        <button class="btn btn-danger btn-round">Get Started</button>
+                    </div>
+                </div>
+				<br/><br/>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'post_add' %}"><i class="nc-icon nc-simple-add"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'post_add' %}"><h4 class="info-title" style="color:#ffffff;" >Add New Post</h4></a><br>
+								<p class="description" style="color:#cccccc;"> Share your own post and gain feedbacks.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'userprofile' pk=user.id %}"><i class="nc-icon nc-satisfied"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'userprofile' pk=user.id %}"> <h4 class="info-title" style="color:#ffffff;">My Profile</h4></a><br>
+								<p class="description" style="color:#cccccc;">Visit your profile and see it from others perspective.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                                <a href="{% url 'updateprofile' pk=user.id %}"><i class="nc-icon nc-settings"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'updateprofile' pk=user.id %}"><h4 class="info-title" style="color:#ffffff;">Update Profile</h4></a><br>
+								<p class="description" style="color:#cccccc;">Edit your portfolio and change your profile picture :)</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="info">
+							<div class="icon icon-danger">
+                               <a href="{% url 'my_validation_list' pk=user.id%}"><i class="nc-icon nc-satisfied"></i></a>
+							</div>
+							<div class="description">
+                                <a href="{% url 'my_validation_list' pk=user.id%}"><h4 class="info-title" style="color:#ffffff;">My Posts</h4></a><br>
+								<p class="description" style="color:#cccccc;">Review your posts and see the audiences it has gathered.</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+            <div class="row justify-content-center" style="color:white;">
+                <h3 style="text-align:center;">Posts to be reviewed</h3>
+                <div class="container">
+                <div class="row justify-content-center">
+                {% for each in post_review_list %}
+                <div class="containerimg">
+                    <a href="{% url 'review_post_detail' pk=each.id %}"><img src="{{each.image.url}}"  alt="Avatar" class="image"></a>
+                    <a href="{% url 'review_post_detail' pk=each.id %}"><div class="overlay">
+                        <div class="text">{{each.title}}<br><h6>{{each.date}}</h6></div>
+                    </div></a>
+                </div>&nbsp;&nbsp;&nbsp;
+            {% endfor %}
+                </div>
+                </div>
+            </div>
+            </div>
+    </div>
+        <div class="page-header"  style="background-image: url('{% static 'img/Productivity.png' %}');">
+		<div class="filter"></div>
+		<div class="container">
+			<div class="motto text-center" style="margin-bottom:50px;">
+                <div class="row justify-content-center">
+                    <div class="col-md-8 ml-auto mr-auto">
+                        <h1 class="title">Categories</h1>
+                        <a href="{% url 'category_add' %}"> <button class="btn btn-danger btn-round" style="margin:1em;"><i class="nc-icon nc-simple-add"></i> Add New Category</button></a>
+                    </div>
+                </div>
+
+				<div class="row justify-content-center">
+
+                    {% for category in category_list %}
+					<div class="col-md-3">
+						<div class="info">
+							<div class="description">
+                                <div class="content-center">
+                                    <a href="{% url 'category_listing' pk=category.id %}" ><img src="{{category.category_image.url}}" style="height:11em; width:10em;" class="img-circle img-no-padding img-responsive"></a></div>
+                                <h3><a href="{% url 'category_listing' pk=category.id %}" ><h6  style="color:white;">{{ category.name}}</h6></a></h3>
+
+							</div>
+						</div>
+					</div>
+                    {% endfor %}
+				</div>
+			</div>
+
+            </div>
+	</div>
 
 
+<div class="section text-center" style="background-color:#222222; width:100%;">
+	<div class="header">
+	<h1 style="color:#eeeeee; margin-bottom:35px;">Top Posts</h1>
+	</div>
+<div class="container">
+	<div class="row justify-content-center">
+	{% for post in post_list %}
+	<div class="containerimg">
+		<a href="{% url 'post_detail' pk=post.id %}"><img src="{{post.image.url}}"  alt="Avatar" class="image"></a>
+		<a href="{% url 'post_detail' pk=post.id %}"><div class="overlay">
+			<div class="text">{{post.title}}</div>
+  		</div></a>
+	</div>&nbsp;&nbsp;&nbsp;
+{% endfor %}
+</div>
+</div>
+</div>
+</div>
 {% else %}
 <br><br><br><br><br>
 <h1 style="color:red;">Permission Denied</h1>

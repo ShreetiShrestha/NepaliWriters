@@ -63,6 +63,8 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data(*args, **kwargs)
         if self.request.user.is_authenticated:
             context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        post=Post.objects.get(id=self.kwargs['pk'])
+        context['user_context']=User.objects.filter(username=post.author)
         context['category_list'] = Category.objects.all()
         context['comment_list'] = Comment.objects.filter(post=self.kwargs['pk'])
         return context
@@ -225,7 +227,10 @@ class LikePost(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(LikePost, self).get_context_data(**kwargs)
-        context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        if self.request.user.is_authenticated:
+            context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        post=Post.objects.get(id=self.kwargs['pk'])
+        context['user_context']=User.objects.filter(username=post.author)
         context['category_list'] = Category.objects.all()
         context['comment_list'] = Comment.objects.filter(post=self.kwargs['pk'])
         context['message'] = {'message': 'message'}
@@ -246,7 +251,10 @@ class UnlikePost(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(UnlikePost, self).get_context_data(**kwargs)
-        context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        if self.request.user.is_authenticated:
+            context['my_post_list'] = Post.objects.filter(author=self.request.user)
+        post=Post.objects.get(id=self.kwargs['pk'])
+        context['user_context']=User.objects.filter(username=post.author)
         context['category_list'] = Category.objects.all()
         context['comment_list'] = Comment.objects.filter(post=self.kwargs['pk'])
         return context
@@ -306,3 +314,9 @@ class AddCategory(CreateView):
         else:
             form = CategoryForm()
         return render(request, 'accounts/category_form.html', {'form': form})
+
+def Searchbar(request):
+    q = request.GET.get("searchquery")
+    searched_post=Post.objects.filter(title__icontains=q)
+    searched_post_author = Post.objects.filter(author__in=(User.objects.filter(username__icontains=q)))
+    return render(request,'posts/searchresult.html',{'post_list': searched_post,'post_list1':searched_post_author})

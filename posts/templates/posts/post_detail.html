@@ -2,63 +2,118 @@
 {% load staticfiles %}
 
 {% block bodycontent %}
-<!--side bar-->
-<h1>Categories</h1>
-{% for category in category_list %}
-<hr>
-<h3><a href="{% url 'category_listing' pk=category.id %}" >{{ category.name}}</a></h3>
-{% endfor %}
+<div class="main" >
+    <div class="section" style="background-color:#E4E3E0">
+        <div class="container" >
+            <div class="row" style="padding-top:5em;">
+                <div class="col-md-3">
+                    <div class="card" style="background-color:#264b56; margin-top:10em;">
+                        <div class="container justify-content-center" style="color:white;">
+                            {% for author_user in user_context %}
+                            <a href="{% url 'userprofile' pk=author_user.id %}">
+                            <img src="{{author_user.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive justify-content-center ">
+                            </a><b><h4 style="text-align:center">@<a href="{% url 'userprofile' pk=author_user.id %}">{{author_user.username}}</a></h4>
+                            <h3 style="text-align:center">{{author_user.first_name}} {{author_user.last_name}}</h3>
+                            <p style="text-align:center">{{author_user.email}}</p></b>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="header">
+                        <h1>{{post.title}}</h1>
+                        <h6 style="color:orange; padding-left:1em; padding-top:1em;">{{post.no_of_like}} Likes &nbsp;&nbsp;{{post.no_of_comment}} Comments</h6>
+                        <hr>
+                        <i><b>{% if post.caption %}{{post.caption}}<br>{%endif%} &nbsp; {{post.date}} &nbsp;<a href="{% url 'category_listing' pk=post.category.id %}" >{{post.category}}</a></b></i><br>
+                    </div>
+                    <div class="container justify-content-center">
+                        <img src="{{post.image.url}}" alt="post_image" class="image img-responsive img-rounded" style="width:100%; margin-top:.5em;">
+                            <pre><p style="margin-top:1em;"><b>{{post.description}}</b></p></pre><hr>
+                    </div>
+                    <div class="container" id="comment" style="margin-top:1em;">
+                    {% if comment_list %}
+                        <h6 style="text-align:center; color:orange; margin-top:1em;"><font size="5">Recent Comments</font></h6><br>
+                        {% for comment in comment_list %}
+                        <div class="row">
+                            <div class="col-md-2">
 
-<!--sidebar-->
-<h1>My Posts</h1>
-{% for mypost in my_post_list %}
-<a href="{% url 'post_detail' pk=mypost.id %}"><h3>{{ mypost.title}}</h3></a>
-{% endfor %}
-<br>
+                        <a href="{% url 'userprofile' pk=comment.commentor.id %}"><img src="{{comment.commentor.profile_pic.url}}" alt="Circle Image" class="img-circle img-no-padding img-responsive " style="margin-top:1em; height:4em; border:.09em solid #443C26;"></a>
+                        <h6><b>@{{ comment.commentor }}</b></h6><br>
 
-<h1>{{post.title}}</h1><hr>
-<i>{{post.caption}}</i><br>
-<img src="{{post.image.url}}">
-<h3>By : <a href="{% url 'userprofile' pk=post.author.id %}">{{post.author}}</a></h3><br>
-{{post.date}}  {{post.category}}
-<h4><strong>{{post.no_of_like}} Likes <br> {{post.no_of_comment}} Comments</strong></h4>
-<pre><p>{{post.description}}</p></pre>
-{% if user.is_authenticated %}
-{% if post.author.username == user.username %}
-<a href="{% url 'update_post' pk=post.id %}"><button> Update Post </button></a>
-<a href="{% url 'delete_post' pk=post.id %}"><button> Delete Post </button></a>
-{% endif %}
-{% if message %}
-<a href="{% url 'unlike_post' pk=post.id %}"><button>Unlike</button></a>
-{% else %}
-<a href="{% url 'like_post' pk=post.id %}"><button>Like</button></a>
-{% endif %}
-<button>Comment</button>
-<button>Share</button><br>
-{% else %}
-<h4>Please Login to your account to Like, Comment or Share this Post.</h4>
-<a href="{% url 'login' %}"><button>Sign In</button></a>
-{% endif %}
+                            </div>
+                            <div class="col-md-10">
+                                <h5 style="margin-left:2em; margin-top:2em; color:#264b56"><font size="3">{{ comment.comment }}</font></h6>
+                                <div style="text-align:right;"> <i><font size="1">{{ comment.time }}</font></i></div>
 
-{% if comment_list %}
- <h5 style="text-align:center;">Recent Comments</h5><br>
-{% for comment in comment_list %}
-<a href="{% url 'userprofile' pk=comment.commentor.id %}">{{ comment.commentor }}</a>
-{{ comment.comment }}
-{{ comment.time }}
-{% endfor %}
-{% else %}
-No comments found for this post. Be the first one to comment!
+                            </div>
+                        </div>{% endfor %}
+
+
+
+
+
+                    {% else %}
+                                            <h6 style="color:orange;"><b>No comments found for this post yet. Be the first one to comment!</b></h6>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'post_comment' pk=post.id %}" method="GET" enctype="multipart/form-data" style="text-align:center;" id="commentform">
+                            {% csrf_token %}
+                                <div class="input-group form-group-no-border input-md col-md-12 ">
+                                    <span class="input"><br><h5><b>Comment: </b></h5></span>&nbsp;&nbsp;&nbsp;
+                                    <textarea rows="5" cols="100" name="comment"  placeholder="Enter comments here..." class="form-control"></textarea>
+                                </div>
+                    <button type="submit" class="btn btn-success btn-round btn-md" style="margin-top:1em;">Comment</button>
+
+                    </form>
 {% endif %}
-{% if user.is_authenticated %}
-<form action="{% url 'post_comment' pk=post.id %}" method="GET" enctype="multipart/form-data" style="text-align:center;" id="commentform">
-        {% csrf_token %}
-            <div class="input-group form-group-no-border input-md col-md-12 ">
-                <span class="input"><h5>Comment:</h5></span>&nbsp;&nbsp;&nbsp;
-                <textarea rows="5" cols="100" name="comment"  placeholder="Enter text here..." class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="container " style="margin-top:1em;">
+                         {% if user.is_authenticated %}
+                            {% if post.author.username == user.username %}
+                            <div class="row justify-content-center">
+                                <a href="{% url 'update_post' pk=post.id %}"><button class=" btn btn-success btn-md btn-round col-md-12"> Update </button></a>
+                                &nbsp;&nbsp;
+                                <a href="{% url 'delete_post' pk=post.id %}"><button class=" btn btn-danger btn-md btn-round col-md-12"> Delete </button></a><br>
+                            </div>
+                            {% endif %}
+                            <div class="row justify-content-center" style="margin-top:.5em;">
+                                {% if message %}
+                                <a href="{% url 'unlike_post' pk=post.id %}"><button class=" btn btn-danger btn-md btn-round col-md-12">Unlike</button></a>
+                                {% else %}
+                                <a href="{% url 'like_post' pk=post.id %}"><button class=" btn btn-info btn-md btn-round col-md-12">Like</button></a>
+                                {% endif %}
+                                &nbsp;&nbsp;
+                                <a href="#comment"><button class="btn  btn-success btn-md btn-round ">Comment</button></a>
+                            </div>
+                           <br>
+                            {% else %}
+                            <h4>Please Login to your account to Like, Comment or Share this Post.</h4><br>
+                            <a href="{% url 'login' %}"><button class="btn btn btn-success btn-md btn-round col-md-12" style="margin-top:1em;">Sign In</button></a><br>
+                            {% endif %}
+                    </div>
+
+                    <div class="card" style="background-color:#264b56; margin-top:1em;">
+                        <div class="container justify-content-center" style="color:white;">
+                            <h2 style=" text-align:center;">Categories</h2>
+                            <ul>{% for category in category_list %}
+                            <li><h6><a href="{% url 'category_listing' pk=category.id %}" >{{ category.name}}</h6></li></a>
+                            {% endfor %}</ul>
+                        </div>
+                        {%if my_post_list %}
+                        <div class="container justify-content-center" style="color:white;">
+                            <h2 style=" text-align:center;">My Posts</h2>
+                            <ul>{% for mypost in my_post_list %}
+                            <li><a href="{% url 'post_detail' pk=mypost.id %}"><h6>{{ mypost.title}}</h6></a></li>
+                            {% endfor %}</ul>
+                                                </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-                    <button type="submit" class="btn btn-success btn-round">Comment</button>
-
-        </form>
-{% endif %}
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-59f34fb6acf6791e"></script>
 {% endblock %}
