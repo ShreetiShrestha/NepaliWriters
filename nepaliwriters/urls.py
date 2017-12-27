@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': 'index'}, name='logout'),
     url(r'^home/', include('posts.urls'),name='home'),
     url(r'^signup/$', views.signup, name='signup'),
-    url(r'^main/', views.MainPage.as_view(), name='mainpage')
+    url(r'^main/', views.MainPage.as_view(), name='mainpage'),
+    url(r'^tinymce/', include('tinymce.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

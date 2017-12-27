@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from tinymce.models import HTMLField
 from django.conf import settings
 import datetime
 
@@ -47,7 +48,7 @@ class PostToReview(models.Model):
     title=models.CharField(max_length=100)
     caption = models.CharField(max_length=200)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,blank=False)
-    description = models.TextField(null=True, blank=True)
+    description = HTMLField()
     image= models.ImageField(upload_to='post_images',blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     date = models.DateField()

@@ -91,7 +91,7 @@ class PostToReviewCreate(CreateView):
             if form.is_valid():
                 newpost = form.save(commit=False)
                 try:
-                    newpost.image = request.FILES['filepath']
+                    newpost.image = request.FILES['image']
                 except MultiValueDictKeyError:
                     newpost.image = False
                 newpost.no_of_like = 0
